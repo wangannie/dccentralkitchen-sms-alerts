@@ -3,7 +3,11 @@ import { sendSms } from "../twilioClient.js";
 
 function formatMessage(name, favoriteStores) {
   return (
-    "Hi" + name + "Your stores: " + favoriteStores + " have gotten deliveries"
+    "Hi " +
+    name +
+    ", your stores: " +
+    favoriteStores.join(", ") +
+    " received fresh deliveries from Healthy Corners today!"
   );
 }
 
