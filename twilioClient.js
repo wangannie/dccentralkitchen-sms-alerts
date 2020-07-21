@@ -11,10 +11,10 @@ export const sendSms = function (to, message) {
       from: config.sendingNumber,
     })
     .then(function (data) {
-      console.log("Administrator notified");
+      console.log("Customers notified");
     })
     .catch(function (err) {
-      console.error("Could not notify administrator");
+      console.error("Could not notify customer(s)");
       console.error(err);
     });
 };

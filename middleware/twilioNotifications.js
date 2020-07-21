@@ -18,13 +18,21 @@ export const notifyOnError = async function (
   next
 ) {
   const contacts = await getCustomers();
-  console.log(contacts);
-
+  console.log("Sending alerts to: ", contacts);
   contacts.forEach(function (contact) {
     var messageToSend = formatMessage(contact.name, contact.favoriteStores);
     sendSms(contact.phoneNumber, messageToSend);
   });
   next(appError);
+};
+
+export const notifyCustomers = async function () {
+  const contacts = await getCustomers();
+  console.log("Sending alerts to: ", contacts);
+  contacts.forEach(function (contact) {
+    var messageToSend = formatMessage(contact.name, contact.favoriteStores);
+    sendSms(contact.phoneNumber, messageToSend);
+  });
 };
 
 export { notifyOnError as default };
