@@ -38,7 +38,6 @@ app.post("/send_alert", async (req, res) => {
 app.post("/send_sms", async (req, res) => {
   const secretKey = req.body.key;
   const to = req.body.to;
-  console.log(body);
   const message = req.body.message;
 
   if (secretKey !== process.env.HC_SECRET) {
@@ -59,7 +58,6 @@ app.post("/send_sms", async (req, res) => {
 app.post("/send_sms_batch", async (req, res) => {
   const secretKey = req.body.key;
   const to = req.body.to;
-  console.log(req.body);
   const message = req.body.message;
 
   if (secretKey !== process.env.HC_SECRET) {
