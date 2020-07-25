@@ -1,10 +1,38 @@
-import http from "http";
+import cors from "cors";
+import express from "express";
 import config from "./config.js";
-// Create Express web app
-import app from "./webapp.js";
+import { notifyCustomers } from "./middleware/twilioNotifications.js";
 
-// Create an HTTP server and listen on the configured port
-var server = http.createServer(app);
-server.listen(config.port, function () {
-  console.log("Express server listening on *:" + config.port);
+// Create Express web app
+var app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post("/delivery_alert", async (req, res) => {
+  const secretKey = req.body.key;
+
+  if (secretKey !== process.env.HC_SECRET) {
+    res.send(`<h1>Error: usage of this API requires a secret key</h1>
+    <p>Please notify someone to help you get access.</p>`);
+    return;
+  }
+  try {
+    const customers = await notifyCustomers();
+    res.send(
+      "Success! Delivery alerts were sent to " + customers + " customer(s)."
+    );
+  } catch (err) {
+    console.error(err);
+    res.send(`<h1>Error</h1>
+    <p>${err}</p>`);
+  }
 });
+app.get("/", (_, res) => {
+  res.send(
+    "You've reached the Healthy Corners SMS Server. Try sending a request to one of the API endpoints!"
+  );
+});
+
+app.listen(config.port, () =>
+  console.log("Express server listening on *: " + config.port)
+);

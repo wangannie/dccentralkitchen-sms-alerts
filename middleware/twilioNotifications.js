@@ -2,37 +2,34 @@ import { getCustomers } from "../lib/customerUtils.js";
 import { sendSms } from "../twilioClient.js";
 
 function formatMessage(name, favoriteStores) {
+  // Construct the string based on how many stores are included
+  var storeString = "";
+  if (favoriteStores.length === 1) {
+    storeString = favoriteStores;
+  } else if (favoriteStores.length === 2) {
+    storeString = favoriteStores.join(" and ");
+  } else {
+    const lastStore = favoriteStores.pop();
+    storeString = favoriteStores.join(", ") + ", and " + lastStore;
+  }
+
   return (
     "Hi " +
     name +
-    ", your stores: " +
-    favoriteStores.join(", ") +
+    ", " +
+    storeString +
     " received fresh deliveries from Healthy Corners today!"
   );
 }
 
-export const notifyOnError = async function (
-  appError,
-  request,
-  response,
-  next
-) {
-  const contacts = await getCustomers();
-  console.log("Sending alerts to: ", contacts);
-  contacts.forEach(function (contact) {
-    var messageToSend = formatMessage(contact.name, contact.favoriteStores);
-    sendSms(contact.phoneNumber, messageToSend);
-  });
-  next(appError);
-};
-
 export const notifyCustomers = async function () {
-  const contacts = await getCustomers();
-  console.log("Sending alerts to: ", contacts);
-  contacts.forEach(function (contact) {
-    var messageToSend = formatMessage(contact.name, contact.favoriteStores);
-    sendSms(contact.phoneNumber, messageToSend);
+  const customers = (await getCustomers()).filter(
+    (customer) => customer.favoriteStores.length > 0
+  );
+  console.log("Sending alerts to: ", customers);
+  customers.forEach(function (customer) {
+    var messageToSend = formatMessage(customer.name, customer.favoriteStores);
+    sendSms(customer.phoneNumber, messageToSend);
   });
+  return customers.length;
 };
-
-export { notifyOnError as default };
