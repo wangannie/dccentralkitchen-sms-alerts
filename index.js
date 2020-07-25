@@ -1,14 +1,20 @@
 import cors from "cors";
 import express from "express";
 import config from "./config.js";
-import { notifyCustomers } from "./middleware/twilioNotifications.js";
+import { notifyCustomers } from "./lib/utils/twilioNotifications.js";
 
 // Create Express web app
 var app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/delivery_alert", async (req, res) => {
+app.get("/", (_, res) => {
+  res.send(
+    "You've reached the Healthy Corners SMS Server. Try sending a request to one of the API endpoints!"
+  );
+});
+
+app.post("/send_alert", async (req, res) => {
   const secretKey = req.body.key;
 
   if (secretKey !== process.env.HC_SECRET) {
@@ -26,11 +32,6 @@ app.post("/delivery_alert", async (req, res) => {
     res.send(`<h1>Error</h1>
     <p>${err}</p>`);
   }
-});
-app.get("/", (_, res) => {
-  res.send(
-    "You've reached the Healthy Corners SMS Server. Try sending a request to one of the API endpoints!"
-  );
 });
 
 app.listen(config.port, () =>

@@ -1,4 +1,4 @@
-import { notifyCustomers } from "./middleware/twilioNotifications.js";
+import { notifyCustomers } from "./lib/utils/twilioNotifications.js";
 
 (async () => {
   await notifyCustomers();
