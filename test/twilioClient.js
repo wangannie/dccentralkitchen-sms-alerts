@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import mockery from "mockery";
 import { stub } from "sinon";
+import { sendSms } from "../twilioClient.js";
 
 describe("twilioClient", function () {
   var msgCreateStub;
@@ -34,12 +35,11 @@ describe("twilioClient", function () {
 
   it("should send sms message and return promise with result", function () {
     // Arrange
-    var twilioClient = require("../twilioClient");
     var toNumber = "+15555555555";
     var message = "test message";
 
     // Act
-    return twilioClient.sendSms(toNumber, message).then(() => {
+    return sendSms(toNumber, message).then(() => {
       // Assert
       expect(msgCreateStub.called).to.be.true;
     });

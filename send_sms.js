@@ -1,6 +1,5 @@
-// Download the helper library from https://www.twilio.com/docs/node/install
-// Your Account Sid and Auth Token from twilio.com/console
-// DANGER! This is insecure. See http://twil.io/secure
+// Basic functionality to send a single SMS test message
+
 import dotenv from "dotenv";
 import twilio from "twilio";
 
@@ -13,7 +12,7 @@ const client = twilio(accountSid, authToken);
 client.messages
   .create({
     body: "Test message",
-    from: "+12022214650",
+    from: process.env.TWILIO_NUMBER,
     to: process.env.TEST_PHONE_NUMBER,
   })
   .then((message) => console.log(message.sid));
