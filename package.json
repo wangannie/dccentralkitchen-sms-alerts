@@ -45,7 +45,7 @@
     "fs-extra": "^9.0.1",
     "moment": "^2.27.0",
     "morgan": "^1.5.1",
-    "sanitize-html": "^1.10.0",
+    "sanitize-html": "^2.3.2",
     "twilio": "~3.0.0-rc.16",
     "underscore": "^1.8.3"
   },
