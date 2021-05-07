@@ -47,7 +47,7 @@
     "morgan": "^1.5.1",
     "sanitize-html": "^1.10.0",
     "twilio": "~3.0.0-rc.16",
-    "underscore": "^1.8.3"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "airtable-schema-generator": "^1.4.1",
